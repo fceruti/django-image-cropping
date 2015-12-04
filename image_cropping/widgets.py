@@ -3,7 +3,6 @@ import logging
 
 from django import forms
 from django.contrib.admin.templatetags import admin_static
-from django.apps import apps
 from django.db.models import ObjectDoesNotExist
 from django.contrib.admin.widgets import AdminFileWidget, ForeignKeyRawIdWidget
 from easy_thumbnails.files import get_thumbnailer
@@ -112,6 +111,7 @@ class CropForeignKeyWidget(ForeignKeyRawIdWidget, CropWidget):
             app_name = self.rel.to._meta.app_label
             model_name = self.rel.to._meta.object_name.lower()
             try:
+                from django.apps import apps
                 image = getattr(
                     apps.get_model(app_name, model_name).objects.get(pk=value),
                     self.field_name,
